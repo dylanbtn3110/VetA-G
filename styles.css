@@ -158,10 +158,11 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
 }
 @media (hover: hover) and (pointer: fine) {
   .card:hover { transform: translateY(-3px); border-color: var(--celeste); }
+  html.js .card.in:hover { transform: translateY(-3px); border-color: var(--celeste); transition: transform 0.2s ease-out, border-color 0.2s; transition-delay: 0s; }
 }
 .card h3 { margin: 0 0 8px; font-size: 1.12rem; color: var(--navy); }
 .card p { margin: 0; color: var(--muted); font-size: 0.97rem; }
-.card-featured { background: var(--navy); border-color: var(--navy); color: #fff; }
+.card-featured { background: var(--navy); border-color: var(--navy); color: #fff; box-shadow: none; }
 .card-featured h3 { color: #fff; }
 .card-featured p { color: #d9ebfa; }
 .tag {
@@ -205,6 +206,7 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
 }
 @media (hover: hover) and (pointer: fine) {
   .gallery img:hover { transform: scale(1.02); }
+  html.js .gallery img.in:hover { transform: scale(1.02); transition: transform 0.2s ease-out; transition-delay: 0s; }
 }
 
 /* Location / contact */
@@ -232,7 +234,7 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
 .wa-float {
   position: fixed; right: 20px; bottom: 20px; z-index: 30;
   width: 56px; height: 56px; border-radius: 50%;
-  background: #25d366; color: #fff;
+  background: #1a7f45; color: #fff;
   display: grid; place-items: center;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
 }
@@ -254,7 +256,7 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
   .nav .btn-small { margin: 12px 20px; text-align: center; }
   .hero-grid, .promo, .contact-grid { grid-template-columns: 1fr; }
   .hero { padding: 48px 0 56px; }
-  .hero-photo { width: min(320px, 86%); }
+  .hero-photo { width: min(260px, 70%); }
   .hero-badge { width: 76px; height: 76px; left: 0; }
   .brand { font-size: 1.2rem; }
   .site-footer { padding-bottom: 104px; }
@@ -327,3 +329,37 @@ html.js .reveal.in { opacity: 1; transform: none; }
 
 /* Botón de WhatsApp: un leve aviso al cargar */
 .wa-float { animation: nudge 1.2s ease-out 1.5s 2; }
+
+/* Iteración 4: promociones, beneficios y ajustes de la crítica */
+.section-tight { padding: 56px 0; }
+.perks {
+  display: grid; gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.perk {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 26px;
+}
+.perk h3 { margin: 0 0 8px; color: var(--navy); font-size: 1.1rem; }
+.perk p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+.nav-toggle:focus-visible { outline: 3px solid var(--celeste); outline-offset: 3px; border-radius: 6px; }
+.btn:focus-visible { outline: 3px solid var(--celeste); outline-offset: 3px; }
+@media (max-width: 860px) {
+  .nav a.btn-small { border-top: 0; font-weight: 700; }
+  .gallery img.desk { display: none; }
+}
+@media (max-width: 400px) {
+  .brand { font-size: 1.05rem; gap: 8px; }
+  .brand img { width: 38px; height: 38px; }
+}
+
+/* Iteración 5: galería con color, fotos de la portada y ajustes de la crítica */
+.gallery img { background: var(--celeste-soft); }
+@media (max-width: 860px) {
+  .hero-photo { width: auto; height: 240px; aspect-ratio: auto; }
+}
+
+.hero-facts { margin: 18px 0 0; font-size: 0.92rem; color: var(--muted); }
+.credit { margin: 18px 0 0; font-size: 0.85rem; color: var(--muted); text-align: center; }
+.site-footer a { color: #fff; }
+.nav-toggle { min-width: 44px; min-height: 44px; display: grid; place-content: center; }
