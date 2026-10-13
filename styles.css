@@ -256,7 +256,6 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
   .nav .btn-small { margin: 12px 20px; text-align: center; }
   .hero-grid, .promo, .contact-grid { grid-template-columns: 1fr; }
   .hero { padding: 48px 0 56px; }
-  .hero-visual { order: -1; }
   .hero-photo { width: min(260px, 70%); }
   .hero-badge { width: 76px; height: 76px; left: 0; }
   .brand { font-size: 1.2rem; }
@@ -347,7 +346,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .btn:focus-visible { outline: 3px solid var(--celeste); outline-offset: 3px; }
 @media (max-width: 860px) {
   .nav a.btn-small { border-top: 0; font-weight: 700; }
-  .gallery img:nth-child(n+9) { display: none; }
+  .gallery img.desk { display: none; }
 }
 @media (max-width: 400px) {
   .brand { font-size: 1.05rem; gap: 8px; }
@@ -359,3 +358,8 @@ html.js .reveal.in { opacity: 1; transform: none; }
 @media (max-width: 860px) {
   .hero-photo { width: auto; height: 240px; aspect-ratio: auto; }
 }
+
+.hero-facts { margin: 18px 0 0; font-size: 0.92rem; color: var(--muted); }
+.credit { margin: 18px 0 0; font-size: 0.85rem; color: var(--muted); text-align: center; }
+.site-footer a { color: #fff; }
+.nav-toggle { min-width: 44px; min-height: 44px; display: grid; place-content: center; }
