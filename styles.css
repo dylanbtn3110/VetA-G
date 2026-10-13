@@ -53,11 +53,13 @@ a { color: var(--navy); }
   min-height: 68px;
 }
 .brand {
-  display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--navy);
-  font-family: var(--font-display); font-weight: 900; letter-spacing: 0.08em;
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: var(--navy-deep);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700; font-size: 1.4rem; letter-spacing: 0.01em;
+  white-space: nowrap;
 }
-.brand img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.brand img { width: 46px; height: 46px; object-fit: contain; }
 
 .nav { display: flex; align-items: center; gap: 22px; }
 .nav a { text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.95rem; }
@@ -87,8 +89,7 @@ a { color: var(--navy); }
 .btn-ghost { background: transparent; color: var(--navy); }
 .btn-ghost:hover { background: var(--celeste-soft); color: var(--navy); }
 .btn-small { padding: 9px 18px; font-size: 0.9rem; }
-.nav .btn-small { color: #fff; }
-.nav .btn-small:hover { color: #fff; }
+.nav a.btn-small, .nav a.btn-small:hover { color: #fff; }
 .btn-block { display: block; text-align: center; margin-top: 12px; }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
@@ -121,11 +122,16 @@ h1 {
 .hero-visual {
   display: grid; place-items: center;
 }
-.hero-visual img {
-  width: min(380px, 100%);
-  border-radius: 50%;
-  box-shadow: var(--shadow);
-  background: #fff;
+.hero-visual { position: relative; }
+.hero-photo {
+  width: min(400px, 100%); aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: 28px; box-shadow: var(--shadow);
+  animation: settle 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.1s both;
+}
+.hero-badge {
+  position: absolute; left: -12px; bottom: 24px;
+  width: 96px; height: 96px; border-radius: 50%;
+  background: #fff; padding: 6px; box-shadow: var(--shadow);
 }
 
 /* Sections */
@@ -248,7 +254,9 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
   .nav .btn-small { margin: 12px 20px; text-align: center; }
   .hero-grid, .promo, .contact-grid { grid-template-columns: 1fr; }
   .hero { padding: 48px 0 56px; }
-  .hero-visual img { width: min(200px, 56%); }
+  .hero-photo { width: min(320px, 86%); }
+  .hero-badge { width: 76px; height: 76px; left: 0; }
+  .brand { font-size: 1.2rem; }
   .site-footer { padding-bottom: 104px; }
   .section { padding: 56px 0; }
   .promo-visual img { width: min(280px, 100%); }
@@ -276,8 +284,8 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
   to { opacity: 1; transform: none; }
 }
 @keyframes sway {
-  from { transform: rotate(-3deg); }
-  to { transform: rotate(3deg); }
+  from { transform: rotate(-2.5deg); }
+  to { transform: rotate(2.5deg); }
 }
 @keyframes nudge {
   0%, 100% { transform: scale(1); }
@@ -289,7 +297,6 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
 .hero-text > :nth-child(2) { animation-delay: 0.08s; }
 .hero-text > :nth-child(3) { animation-delay: 0.16s; }
 .hero-text > :nth-child(4) { animation-delay: 0.24s; }
-.hero-visual img { animation: settle 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.1s both; }
 
 /* Pasto que se mece */
 .grass {
@@ -298,13 +305,11 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
 }
 .grass svg { width: 100%; height: 100%; display: block; }
 .blade {
-  fill: var(--grass);
   transform-box: fill-box;
   transform-origin: 50% 100%;
   animation: sway var(--dur, 4s) ease-in-out var(--delay, 0s) infinite alternate;
 }
-.blade.b2 { fill: var(--grass-deep); }
-.blade.b3 { fill: var(--grass-light); }
+
 .site-footer { position: relative; }
 .grass-foot { top: -64px; bottom: auto; height: 64px; }
 
