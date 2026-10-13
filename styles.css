@@ -158,7 +158,7 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
 }
 @media (hover: hover) and (pointer: fine) {
   .card:hover { transform: translateY(-3px); border-color: var(--celeste); }
-  html.js .card.in:hover { transform: translateY(-3px); border-color: var(--celeste); }
+  html.js .card.in:hover { transform: translateY(-3px); border-color: var(--celeste); transition: transform 0.2s ease-out, border-color 0.2s; transition-delay: 0s; }
 }
 .card h3 { margin: 0 0 8px; font-size: 1.12rem; color: var(--navy); }
 .card p { margin: 0; color: var(--muted); font-size: 0.97rem; }
@@ -206,7 +206,7 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
 }
 @media (hover: hover) and (pointer: fine) {
   .gallery img:hover { transform: scale(1.02); }
-  html.js .gallery img.in:hover { transform: scale(1.02); }
+  html.js .gallery img.in:hover { transform: scale(1.02); transition: transform 0.2s ease-out; transition-delay: 0s; }
 }
 
 /* Location / contact */
@@ -352,4 +352,10 @@ html.js .reveal.in { opacity: 1; transform: none; }
 @media (max-width: 400px) {
   .brand { font-size: 1.05rem; gap: 8px; }
   .brand img { width: 38px; height: 38px; }
+}
+
+/* Iteración 5: galería con color, fotos de la portada y ajustes de la crítica */
+.gallery img { background: var(--celeste-soft); }
+@media (max-width: 860px) {
+  .hero-photo { width: auto; height: 240px; aspect-ratio: auto; }
 }
