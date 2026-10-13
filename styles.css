@@ -86,6 +86,8 @@ a { color: var(--navy); }
 .btn-ghost { background: transparent; color: var(--navy); }
 .btn-ghost:hover { background: var(--celeste-soft); color: var(--navy); }
 .btn-small { padding: 9px 18px; font-size: 0.9rem; }
+.nav .btn-small { color: #fff; }
+.nav .btn-small:hover { color: #fff; }
 .btn-block { display: block; text-align: center; margin-top: 12px; }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
