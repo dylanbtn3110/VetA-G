@@ -190,7 +190,7 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
 /* Gallery */
 .gallery {
   display: grid; gap: 14px;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 }
 .gallery img {
   width: 100%; aspect-ratio: 9 / 16; object-fit: cover;
@@ -249,7 +249,7 @@ h2 { font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.2
   .hero-grid, .promo, .contact-grid { grid-template-columns: 1fr; }
   .hero { padding: 48px 0 56px; }
   .hero-visual img { width: min(200px, 56%); }
-  body { padding-bottom: 84px; }
+  .site-footer { padding-bottom: 104px; }
   .section { padding: 56px 0; }
   .promo-visual img { width: min(280px, 100%); }
 }
