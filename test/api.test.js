@@ -335,6 +335,18 @@ test('recordatorios: avisa una sola vez a las citas de la próxima hora', () => 
   assert.equal(enviarRecordatorios(app.db, ahora), 0);
 });
 
+test('formulario público: la solicitud llega al veterinario y se limita el spam', async () => {
+  const body = { tutor: 'Rosa Pérez', telefono: '987654321', mascota: 'Pelusa', motivo: 'Vacunación', fecha: sumarDias(hoyLima(), 2) };
+  const ok = await api('POST', '/api/solicitudes', { body });
+  assert.equal(ok.status, 201);
+  const avisos = (await api('GET', '/api/notificaciones', { token: vet })).data;
+  assert.ok(avisos.some((n) => n.tipo === 'web' && n.mensaje.includes('Rosa Pérez') && n.mensaje.includes('Pelusa')));
+  assert.equal((await api('POST', '/api/solicitudes', { body: { tutor: 'X' } })).status, 400);
+  let ultimo;
+  for (let i = 0; i < 6; i++) ultimo = await api('POST', '/api/solicitudes', { body });
+  assert.equal(ultimo.status, 429);
+});
+
 test('archivos estáticos sin salir de public/', async () => {
   assert.equal((await api('GET', '/')).status, 200);
   // fetch normaliza "..", así que se envía la ruta cruda con http.request.

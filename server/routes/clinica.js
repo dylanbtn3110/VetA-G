@@ -6,7 +6,7 @@ import { esVet, mascotaAccesible, requerirUsuario } from '../lib/auth.js';
 import { insertar } from '../lib/crud.js';
 import { fail } from '../lib/http.js';
 import { soles } from '../lib/money.js';
-import { notificar } from '../lib/notify.js';
+import { notificar, notificarVeterinarios } from '../lib/notify.js';
 import { MIME_ARCHIVOS, OCUPA_HORARIO } from '../lib/constants.js';
 import { hoyLima, sumarDias, textoLima } from '../lib/time.js';
 import * as v from '../lib/validate.js';
@@ -34,7 +34,36 @@ function citaDeMascota(db, citaId, mascotaId) {
   return citaId;
 }
 
+// Límite simple para el formulario público: 5 solicitudes por IP cada 10 minutos.
+const VENTANA_MS = 10 * 60 * 1000;
+const MAX_SOLICITUDES = 5;
+const envios = new Map();
+function limitarSolicitudes(ip) {
+  const ahora = Date.now();
+  const recientes = (envios.get(ip) ?? []).filter((t) => ahora - t < VENTANA_MS);
+  if (recientes.length >= MAX_SOLICITUDES) fail(429, 'Enviaste varias solicitudes seguidas; espera unos minutos o escríbenos por WhatsApp');
+  recientes.push(ahora);
+  envios.set(ip, recientes);
+}
+
 export function registrar(r) {
+  // ---------- Solicitudes desde la página pública (sin cuenta) ----------
+  r.add('POST', '/api/solicitudes', async (c) => {
+    limitarSolicitudes(c.req.socket.remoteAddress ?? 'desconocida');
+    const b = await c.json();
+    const datos = {
+      nombre: v.texto(b.tutor, 'nombre', { max: 120 }),
+      telefono: v.texto(b.telefono, 'teléfono', { max: 30 }),
+      mascota: v.texto(b.mascota, 'nombre de la mascota', { max: 80 }),
+      motivo: v.texto(b.motivo, 'motivo', { max: 200 }),
+      fecha_preferida: v.fecha(b.fecha, 'fecha preferida', { opcional: true }),
+    };
+    insertar(c.db, 'solicitudes', datos);
+    const fecha = datos.fecha_preferida ? `, prefiere ${datos.fecha_preferida}` : '';
+    notificarVeterinarios(c.db, 'web', `Solicitud web: ${datos.nombre} (${datos.telefono}) para ${datos.mascota}, ${datos.motivo}${fecha}`);
+    c.send(201, { ok: true });
+  });
+
   // ---------- Historial clínico ----------
   r.add('GET', '/api/mascotas/:id/historial', (c) => {
     const m = mascotaAccesible(c.db, requerirUsuario(c), idParam(c));

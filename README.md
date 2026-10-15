@@ -15,8 +15,17 @@ npm start       # http://localhost:3000
 npm test        # pruebas de la API
 ```
 
-Usuarios de ejemplo (después de `npm run seed`): `vet@veta-g.test` y `cliente@veta-g.test`,
-contraseña `demo-veta-2026` o la que definas en `SEED_PASSWORD`.
+Usuarios de ejemplo: `vet@veta-g.test` y `cliente@veta-g.test`, contraseña `demo-veta-2026`
+(o la que definas en `SEED_PASSWORD`). Si la base está vacía, `npm start` los crea solo,
+salvo con `NODE_ENV=production`.
+
+### Sin servidor: modo demostración
+
+Si abres `public/index.html` directamente o publicas la carpeta `public/` en un hosting estático
+(por ejemplo GitHub Pages), la página detecta que no hay servidor y usa un modo demostración:
+todo el portal funciona, pero los datos se guardan solo en ese navegador. La página de acceso
+muestra botones para entrar como veterinario o como cliente, y un aviso arriba permite reiniciar
+los datos. Para uso real con clientes hay que correr el servidor (`npm start`).
 
 | Página | Para quién |
 | --- | --- |
@@ -58,6 +67,7 @@ Autenticación con `Authorization: Bearer <token>` (se obtiene en login o regist
 | Método y ruta | Quién | Qué hace |
 | --- | --- | --- |
 | `POST /api/auth/registro`, `POST /api/auth/login` | público | Crea cuenta de cliente o inicia sesión |
+| `POST /api/solicitudes` | público | Formulario de la página principal; avisa al veterinario (máx. 5 cada 10 min por IP) |
 | `GET /api/servicios` | público | Servicios activos con duración y precio |
 | `GET /api/disponibilidad?fecha=&servicio_id=` | sesión | Horarios libres cada 15 min |
 | `GET/POST /api/citas`, `PATCH /api/citas/:id` | sesión | Listar, reservar, cambiar estado o reprogramar |

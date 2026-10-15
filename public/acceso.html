@@ -5,15 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%90%BE%3C/text%3E%3C/svg%3E">
   <title>Portal VetA-G</title>
-  <link rel="stylesheet" href="/assets/app.css">
+  <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
   <div class="auth">
     <div class="card stack">
-      <a href="/" class="brand">🐾 VetA-G</a>
+      <a href="index.html" class="brand">🐾 VetA-G</a>
       <div class="tabs" role="tablist">
         <button type="button" data-modo="entrar" aria-selected="true">Iniciar sesión</button>
         <button type="button" data-modo="registro" aria-selected="false">Crear cuenta</button>
+      </div>
+
+      <div class="demo-cuentas" id="demo-cuentas" hidden>
+        <strong>Cuentas de prueba</strong>
+        <button type="button" class="btn ghost small" data-cuenta="vet@veta-g.test">Entrar como veterinario</button>
+        <button type="button" class="btn ghost small" data-cuenta="cliente@veta-g.test">Entrar como cliente</button>
+        <span class="small muted">Contraseña: <code>demo-veta-2026</code></span>
       </div>
 
       <form id="form-entrar" class="form">
@@ -45,7 +52,8 @@
     </div>
   </div>
 
-  <script src="/assets/api.js"></script>
+  <script src="assets/demo.js"></script>
+  <script src="assets/api.js"></script>
   <script>
     (() => {
       const formularios = { entrar: document.getElementById('form-entrar'), registro: document.getElementById('form-registro') };
@@ -59,8 +67,21 @@
         const r = await vet.intentar(() => vet.post(ruta, vet.datosForm(form)));
         if (!r) return;
         vet.token.guardar(r.token);
-        location.href = r.usuario.rol === 'veterinario' ? '/veterinario.html' : '/cliente.html';
+        location.href = r.usuario.rol === 'veterinario' ? 'veterinario.html' : 'cliente.html';
       };
+      // En modo demostración se muestran las cuentas de prueba con acceso de un clic.
+      vet.modo().then((m) => {
+        if (m !== 'demo') return;
+        const caja = document.getElementById('demo-cuentas');
+        caja.hidden = false;
+        caja.addEventListener('click', (e) => {
+          const b = e.target.closest('[data-cuenta]');
+          if (!b) return;
+          formularios.entrar.email.value = b.dataset.cuenta;
+          formularios.entrar.password.value = 'demo-veta-2026';
+          formularios.entrar.requestSubmit();
+        });
+      });
       formularios.entrar.addEventListener('submit', (e) => { e.preventDefault(); entrar('/api/auth/login', e.target); });
       formularios.registro.addEventListener('submit', (e) => { e.preventDefault(); entrar('/api/auth/registro', e.target); });
     })();

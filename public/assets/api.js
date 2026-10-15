@@ -18,9 +18,56 @@
     }
   };
 
+  // ¿Hay servidor? Si la API no responde JSON (archivo abierto directo, hosting estático),
+  // se usa el modo demostración que corre dentro del navegador (demo.js).
+  let modo = null;
+  async function detectarModo() {
+    if (modo) return modo;
+    try {
+      modo = sessionStorage.getItem('veta.modo');
+    } catch {
+      /* sin almacenamiento */
+    }
+    if (modo) return modo;
+    try {
+      // Abierto como archivo no puede haber servidor: no vale la pena consultar.
+      if (location.protocol === 'file:') throw new Error('sin servidor');
+      const r = await fetch('api/servicios', { cache: 'no-store' });
+      modo = r.ok && (r.headers.get('content-type') ?? '').includes('application/json') ? 'servidor' : 'demo';
+    } catch {
+      modo = 'demo';
+    }
+    if (modo === 'demo' && !window.VetDemo) modo = 'servidor';
+    try {
+      sessionStorage.setItem('veta.modo', modo);
+    } catch {
+      /* sin almacenamiento */
+    }
+    return modo;
+  }
+
+  function sesionVencida() {
+    guardarToken(null);
+    location.href = 'acceso.html';
+    return new Error('Sesión vencida');
+  }
+
   async function pedir(metodo, ruta, { body, archivo } = {}) {
-    const headers = {};
+    // Rutas relativas: funcionan en la raíz, en una subcarpeta o abriendo el archivo.
+    const rel = ruta.replace(/^\/+/, '');
+    const esAuth = rel.startsWith('api/auth/');
     const token = leerToken();
+
+    if ((await detectarModo()) === 'demo') {
+      try {
+        return await window.VetDemo.manejar(metodo, rel, { body, archivo, token });
+      } catch (e) {
+        if (e.status === 401 && !esAuth) throw sesionVencida();
+        throw e;
+      }
+    }
+
+    const headers = {};
     if (token) headers.Authorization = `Bearer ${token}`;
     let payload;
     if (archivo) {
@@ -31,17 +78,38 @@
       headers['Content-Type'] = 'application/json';
       payload = JSON.stringify(body);
     }
-    const res = await fetch(ruta, { method: metodo, headers, body: payload });
-    if (res.status === 401 && !ruta.startsWith('/api/auth/')) {
-      guardarToken(null);
-      location.href = '/acceso.html';
-      throw new Error('Sesión vencida');
+    let res;
+    try {
+      res = await fetch(rel, { method: metodo, headers, body: payload });
+    } catch {
+      throw new Error('No hay conexión con el servidor de la clínica');
     }
+    if (res.status === 401 && !esAuth) throw sesionVencida();
     const esJson = (res.headers.get('content-type') ?? '').includes('application/json');
     const data = esJson ? await res.json() : await res.blob();
     if (!res.ok) throw new Error((esJson && data.error) || `Error ${res.status}`);
     return data;
   }
+
+  // Aviso visible cuando se está en modo demostración.
+  async function marcarModo() {
+    if (document.body.hasAttribute('data-sin-aviso')) return;
+    if ((await detectarModo()) !== 'demo' || document.querySelector('.demo-banner')) return;
+    const aviso = document.createElement('div');
+    aviso.className = 'demo-banner';
+    aviso.innerHTML =
+      'Modo demostración: no hay servidor conectado, los datos se guardan solo en este navegador. ' +
+      '<button type="button">Reiniciar datos</button>';
+    aviso.querySelector('button').addEventListener('click', () => {
+      if (!confirm('¿Borrar los datos de la demostración y empezar de cero?')) return;
+      window.VetDemo.reiniciar();
+      guardarToken(null);
+      location.href = 'acceso.html';
+    });
+    document.body.prepend(aviso);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', marcarModo);
+  else marcarModo();
 
   const ESTADOS = {
     pendiente: 'Pendiente',
@@ -87,19 +155,26 @@
 
   async function sesion(rolEsperado) {
     if (!leerToken()) {
-      location.href = '/acceso.html';
+      location.href = 'acceso.html';
       return null;
     }
-    const u = await pedir('GET', '/api/auth/yo');
+    let u;
+    try {
+      u = await pedir('GET', '/api/auth/yo');
+    } catch {
+      guardarToken(null);
+      location.href = 'acceso.html';
+      return null;
+    }
     if (u.rol !== rolEsperado) {
-      location.href = u.rol === 'veterinario' ? '/veterinario.html' : '/cliente.html';
+      location.href = u.rol === 'veterinario' ? 'veterinario.html' : 'cliente.html';
       return null;
     }
     for (const el of document.querySelectorAll('[data-usuario]')) el.textContent = u.nombre;
     document.querySelector('[data-salir]')?.addEventListener('click', async () => {
       await pedir('POST', '/api/auth/logout').catch(() => {});
       guardarToken(null);
-      location.href = '/acceso.html';
+      location.href = 'acceso.html';
     });
     return u;
   }
@@ -190,6 +265,7 @@
     patch: (r, body) => pedir('PATCH', r, { body }),
     subir: (r, archivo) => pedir('POST', r, { archivo }),
     token: { leer: leerToken, guardar: guardarToken },
+    modo: detectarModo,
     ESTADOS,
     esc,
     aviso,

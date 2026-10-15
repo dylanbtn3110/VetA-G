@@ -19,12 +19,12 @@
     });
   }
 
-  // Formulario de cita: validación básica y mensaje de confirmación.
-  // No envía datos a ningún servidor; conéctalo a tu backend, Formspree o WhatsApp cuando lo tengas.
+  // Formulario de cita: se envía al sistema de la clínica (o a la demostración si no hay
+  // servidor) y llega al panel del veterinario como notificación.
   const form = document.getElementById("cita-form");
   const msg = form ? form.querySelector(".form-msg") : null;
   if (form && msg) {
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const data = new FormData(form);
       const required = ["tutor", "telefono", "mascota", "motivo"];
@@ -38,9 +38,26 @@
         return;
       }
 
-      msg.classList.remove("error");
-      msg.textContent = `¡Gracias, ${data.get("tutor")}! Recibimos la solicitud para ${data.get("mascota")}. Te contactaremos pronto.`;
-      form.reset();
+      const boton = form.querySelector("button[type=submit]");
+      boton.disabled = true;
+      try {
+        await window.vet.post("api/solicitudes", Object.fromEntries(data));
+        msg.classList.remove("error");
+        msg.innerHTML = "";
+        msg.append(
+          `¡Gracias, ${data.get("tutor")}! La clínica ya recibió tu solicitud para ${data.get("mascota")} y te contactará pronto. `,
+        );
+        const enlace = document.createElement("a");
+        enlace.href = "acceso.html";
+        enlace.textContent = "Crea tu cuenta para reservar con horario exacto.";
+        msg.append(enlace);
+        form.reset();
+      } catch (err) {
+        msg.textContent = `No se pudo enviar: ${err.message}. Escríbenos por WhatsApp o llámanos.`;
+        msg.classList.add("error");
+      } finally {
+        boton.disabled = false;
+      }
     });
   }
 })();

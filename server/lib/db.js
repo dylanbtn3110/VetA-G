@@ -104,6 +104,17 @@ CREATE TABLE IF NOT EXISTS notificaciones (
 );
 CREATE INDEX IF NOT EXISTS idx_notif_usuario ON notificaciones(usuario_id, leida);
 
+CREATE TABLE IF NOT EXISTS solicitudes (
+  id INTEGER PRIMARY KEY,
+  nombre TEXT NOT NULL,
+  telefono TEXT NOT NULL,
+  mascota TEXT NOT NULL,
+  motivo TEXT NOT NULL,
+  fecha_preferida TEXT,
+  atendida INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 CREATE TABLE IF NOT EXISTS inventario (
   id INTEGER PRIMARY KEY,
   nombre TEXT NOT NULL,
