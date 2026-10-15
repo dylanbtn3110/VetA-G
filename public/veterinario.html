@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%90%BE%3C/text%3E%3C/svg%3E">
+  <title>Panel VetA-G</title>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a href="index.html" class="brand">🐾 VetA-G · Panel</a>
+      <span class="spacer"></span>
+      <span class="user"><strong data-usuario></strong></span>
+      <span class="bell" title="Notificaciones">🔔<span class="count" id="contador" hidden>0</span></span>
+      <button class="btn ghost small" data-salir>Salir</button>
+    </div>
+    <div class="wrap">
+      <nav class="tabs" aria-label="Secciones">
+        <button data-tab="resumen">Resumen</button>
+        <button data-tab="agenda">Agenda</button>
+        <button data-tab="clientes">Clientes e historial</button>
+        <button data-tab="inventario">Inventario</button>
+        <button data-tab="boletas">Boletas</button>
+        <button data-tab="servicios">Servicios</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Resumen -->
+    <section data-panel="resumen" class="grid">
+      <div class="kpis" id="kpis"></div>
+      <div class="grid grid-2 grid-3-1">
+        <div class="card">
+          <div class="row between"><h2>Clientes atendidos por día</h2><span class="small muted">últimos 14 días · hoy en naranja</span></div>
+          <div class="bars" id="grafico" role="img" aria-label="Clientes por día"></div>
+        </div>
+        <div class="card">
+          <h2>Llegando y urgencias</h2>
+          <ul class="list" id="en-camino"></ul>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Próximas citas</h2>
+          <ul class="list" id="proximas"></ul>
+        </div>
+        <div class="card">
+          <div class="row between"><h2>Notificaciones</h2><button class="btn ghost small" id="leer-todas">Marcar leídas</button></div>
+          <ul class="list" id="notificaciones"></ul>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Controles por vencer (14 días)</h2>
+          <p class="small muted">Vacunas, desparasitaciones o controles: llama al dueño para agendar.</p>
+          <ul class="list" id="vencimientos"></ul>
+        </div>
+        <div class="card">
+          <h2>Alertas de inventario</h2>
+          <ul class="list" id="alertas-resumen"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Agenda -->
+    <section data-panel="agenda" class="grid">
+      <div class="card">
+        <div class="row between">
+          <h2>Agenda del día</h2>
+          <label class="row">Fecha <input type="date" id="agenda-fecha" style="width:auto"></label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Hora</th><th>Mascota</th><th>Dueño</th><th>Servicio</th><th>Motivo</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="agenda"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card" id="card-atencion">
+          <h2>Registrar atención</h2>
+          <p class="small muted" id="atencion-info">Elige «Atender» en una cita o busca la mascota en «Clientes e historial».</p>
+          <form id="form-atencion" class="form" hidden>
+            <input type="hidden" name="mascota_id"><input type="hidden" name="cita_id">
+            <div class="form-grid">
+              <label>Peso (kg) <input type="number" step="0.1" min="0" name="peso_kg"></label>
+              <label>Temperatura (°C) <input type="number" step="0.1" min="30" max="45" name="temperatura_c"></label>
+              <label>Próximo control <input type="date" name="proximo_vencimiento"></label>
+            </div>
+            <label>Diagnóstico <textarea name="diagnostico" required></textarea></label>
+            <label>Tratamiento <textarea name="tratamiento"></textarea></label>
+            <label>Notas internas <textarea name="notas"></textarea></label>
+            <button class="btn">Guardar en historial</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Nueva cita</h2>
+          <form id="form-cita" class="form">
+            <label>Mascota (dueño) <select name="mascota_id" id="cita-mascota" required></select></label>
+            <div class="form-grid">
+              <label>Servicio <select name="servicio_id" id="cita-servicio" required></select></label>
+              <label>Fecha <input type="date" name="fecha" id="cita-fecha" required></label>
+            </div>
+            <div class="slots" id="cita-slots"></div>
+            <label>Motivo <input name="motivo" maxlength="500"></label>
+            <button class="btn" id="btn-cita" disabled>Agendar (queda confirmada)</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Clientes -->
+    <section data-panel="clientes" class="grid grid-2">
+      <div class="card stack">
+        <h2>Clientes</h2>
+        <input type="search" id="buscar-cliente" placeholder="Buscar por nombre, email, DNI o teléfono">
+        <ul class="list" id="clientes"></ul>
+        <details>
+          <summary><strong>Registrar cliente que llegó sin cuenta</strong></summary>
+          <form id="form-cliente" class="form" style="margin-top:12px">
+            <div class="form-grid">
+              <label>Nombre <input name="nombre" required></label>
+              <label>Email <input type="email" name="email" required></label>
+              <label>Teléfono <input name="telefono"></label>
+              <label>DNI <input name="doc_numero" inputmode="numeric" pattern="\d{8}"></label>
+            </div>
+            <input type="hidden" name="doc_tipo" value="1">
+            <button class="btn">Registrar</button>
+          </form>
+        </details>
+      </div>
+      <div class="card stack" id="detalle-cliente">
+        <p class="empty">Elige un cliente para ver sus mascotas, historial y fotos.</p>
+      </div>
+    </section>
+
+    <!-- Inventario -->
+    <section data-panel="inventario" class="grid">
+      <div class="kpis" id="inv-kpis"></div>
+      <div class="card">
+        <div class="row between">
+          <h2>Productos</h2>
+          <input type="search" id="buscar-producto" placeholder="Buscar" style="max-width:260px">
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Producto</th><th>Categoría</th><th>Lote</th><th>Vence</th><th class="num">Stock</th><th class="num">Precio</th><th>Movimiento</th></tr></thead>
+            <tbody id="inventario"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Agregar producto</h2>
+        <form id="form-producto" class="form">
+          <div class="form-grid">
+            <label>Nombre <input name="nombre" required></label>
+            <label>Categoría <input name="categoria" list="categorias" placeholder="medicamentos"></label>
+            <label>Tipo SUNAT <select name="tipo_sunat"><option>Bien</option><option>Servicio</option></select></label>
+            <label>Stock inicial <input type="number" name="stock" min="0" value="0"></label>
+            <label>Stock mínimo <input type="number" name="stock_minimo" min="0" value="0"></label>
+            <label>Precio venta (S/, con IGV) <input type="number" name="precio" min="0" step="0.01"></label>
+            <label>Lote <input name="lote"></label>
+            <label>Vence el <input type="date" name="vence_el"></label>
+            <label>Ubicación <input name="ubicacion" placeholder="Vitrina 2"></label>
+          </div>
+          <button class="btn">Guardar producto</button>
+        </form>
+        <datalist id="categorias"><option>vacunas</option><option>medicamentos</option><option>alimentos</option><option>snacks</option><option>juguetes</option><option>insumos</option></datalist>
+      </div>
+    </section>
+
+    <!-- Boletas -->
+    <section data-panel="boletas" class="grid">
+      <div class="card">
+        <h2>Nueva boleta</h2>
+        <form id="form-boleta" class="form">
+          <div class="form-grid">
+            <label>Cliente registrado <select name="cliente_id" id="boleta-cliente"><option value="">— Ingresar datos a mano —</option></select></label>
+            <label>Documento
+              <select name="cliente_doc_tipo"><option value="1">DNI</option><option value="0">Sin documento</option><option value="4">Carné de extranjería</option><option value="6">RUC</option><option value="7">Pasaporte</option></select>
+            </label>
+            <label>Número <input name="cliente_doc_numero" inputmode="numeric"></label>
+            <label>Nombre <input name="cliente_nombre" placeholder="CLIENTE VARIOS"></label>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Ítem</th><th>Descripción</th><th>Tipo</th><th class="num">Cant.</th><th class="num">Precio (con IGV)</th><th class="num">Valor unit. (sin IGV)</th><th class="num">Total</th><th></th></tr></thead>
+              <tbody id="boleta-items"></tbody>
+              <tfoot>
+                <tr><td colspan="6" class="num">Op. gravadas</td><td class="num" id="b-gravadas">0.000</td><td></td></tr>
+                <tr><td colspan="6" class="num">IGV 18%</td><td class="num" id="b-igv">0.000</td><td></td></tr>
+                <tr><td colspan="6" class="num"><strong>Total</strong></td><td class="num"><strong id="b-total">S/ 0.00</strong></td><td></td></tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="row">
+            <button type="button" class="btn ghost" id="agregar-item">+ Agregar ítem</button>
+            <span class="spacer" style="flex:1"></span>
+            <button class="btn">Emitir boleta</button>
+          </div>
+          <p class="small muted">Valor unitario = precio con IGV ÷ 1.18, con 3 decimales (como en SEE-SOL). La boleta queda registrada aquí; el envío a SUNAT se hace aparte.</p>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Boletas de los últimos 30 días</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Comprobante</th><th>Fecha</th><th>Cliente</th><th class="num">Total</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="boletas"></tbody>
+          </table>
+        </div>
+        <pre class="code" id="payload" hidden></pre>
+      </div>
+    </section>
+
+    <!-- Servicios -->
+    <section data-panel="servicios" class="grid">
+      <div class="card">
+        <h2>Servicios y duración</h2>
+        <p class="small muted">La duración define los horarios libres (por ejemplo, un baño de 60 min ocupa 4 espacios de 15 min).</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Servicio</th><th>Categoría</th><th class="num">Minutos</th><th class="num">Precio S/</th><th>Activo</th><th></th></tr></thead>
+            <tbody id="servicios"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Nuevo servicio</h2>
+        <form id="form-servicio" class="form-grid">
+          <label>Nombre <input name="nombre" required></label>
+          <label>Categoría
+            <select name="categoria">
+              <option value="consulta">Consulta</option><option value="vacuna">Vacuna</option><option value="desparasitacion">Desparasitación</option>
+              <option value="bano">Baño</option><option value="peluqueria">Peluquería</option><option value="cirugia">Cirugía</option>
+              <option value="laboratorio">Laboratorio</option><option value="emergencia">Emergencia</option><option value="otro">Otro</option>
+            </select>
+          </label>
+          <label>Minutos <input type="number" name="duracion_min" min="5" max="480" step="5" value="30" required></label>
+          <label>Precio S/ (con IGV) <input type="number" name="precio" min="0" step="0.01" required></label>
+          <label>&nbsp;<button class="btn block">Crear</button></label>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/demo.js"></script>
+  <script src="assets/api.js"></script>
+  <script src="assets/veterinario.js"></script>
+</body>
+</html>

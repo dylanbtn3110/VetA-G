@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%90%BE%3C/text%3E%3C/svg%3E">
+  <title>Mi portal VetA-G</title>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a href="index.html" class="brand">🐾 VetA-G</a>
+      <span class="spacer"></span>
+      <span class="user">Hola, <strong data-usuario></strong></span>
+      <span class="bell" title="Notificaciones">🔔<span class="count" id="contador" hidden>0</span></span>
+      <button class="btn ghost small" data-salir>Salir</button>
+    </div>
+    <div class="wrap">
+      <nav class="tabs" aria-label="Secciones">
+        <button data-tab="inicio">Inicio</button>
+        <button data-tab="reservar">Reservar cita</button>
+        <button data-tab="mascotas">Mis mascotas</button>
+        <button data-tab="historial">Historial y fotos</button>
+        <button data-tab="boletas">Boletas</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Inicio -->
+    <section data-panel="inicio" class="grid">
+      <div class="sos">
+        <h2>¿Es una urgencia?</h2>
+        <p>Avísanos ahora: el equipo recibe la alerta al instante y prepara la atención para cuando llegues.</p>
+        <form id="form-urgencia" class="form-grid">
+          <label>Mascota <select name="mascota_id" data-mascotas required></select></label>
+          <label>¿Qué pasa? <input name="motivo" required placeholder="Ej.: comió chocolate, no respira bien"></label>
+          <label>Llego en (min) <input type="number" name="minutos" min="0" max="240" placeholder="15"></label>
+          <label>&nbsp;<button class="btn danger block">Enviar urgencia</button></label>
+        </form>
+        <p class="small">Si es grave, además llama de inmediato al teléfono de la clínica.</p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Mis próximas citas</h2>
+          <ul class="list" id="proximas"></ul>
+        </div>
+        <div class="card">
+          <div class="row between"><h2>Notificaciones</h2><button class="btn ghost small" id="leer-todas">Marcar leídas</button></div>
+          <ul class="list" id="notificaciones"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reservar -->
+    <section data-panel="reservar" class="grid grid-2">
+      <div class="card">
+        <h2>Reservar cita</h2>
+        <form id="form-reserva" class="form">
+          <label>Mascota <select name="mascota_id" data-mascotas required></select></label>
+          <label>Servicio <select name="servicio_id" id="servicio" required></select></label>
+          <label>Fecha <input type="date" name="fecha" id="fecha" required></label>
+          <div>
+            <p class="small muted" id="slots-info">Elige servicio y fecha para ver los horarios libres.</p>
+            <div class="slots" id="slots"></div>
+          </div>
+          <label>Motivo o comentario <textarea name="motivo" maxlength="500" placeholder="Opcional"></textarea></label>
+          <button class="btn" id="btn-reservar" disabled>Reservar</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Cómo funciona</h2>
+        <ol class="small">
+          <li>Solo ves los horarios libres: no hay cruces con otras citas.</li>
+          <li>Tu solicitud queda <strong>pendiente</strong> hasta que la clínica la confirme.</li>
+          <li>Te avisamos una hora antes.</li>
+          <li>Cuando salgas de casa, toca <strong>«Voy en camino»</strong> para que te esperen.</li>
+        </ol>
+        <h3>Servicios y precios</h3>
+        <ul class="list small" id="lista-servicios"></ul>
+      </div>
+    </section>
+
+    <!-- Mascotas -->
+    <section data-panel="mascotas" class="grid grid-2">
+      <div class="card">
+        <h2>Mis mascotas</h2>
+        <ul class="list" id="mascotas"></ul>
+      </div>
+      <div class="card">
+        <h2>Agregar mascota</h2>
+        <form id="form-mascota" class="form">
+          <div class="form-grid">
+            <label>Nombre <input name="nombre" required maxlength="80"></label>
+            <label>Especie <input name="especie" required list="especies" maxlength="40"></label>
+            <label>Raza <input name="raza" maxlength="60"></label>
+            <label>Sexo <select name="sexo"><option value="">—</option><option>Macho</option><option>Hembra</option></select></label>
+            <label>Nacimiento <input type="date" name="fecha_nacimiento"></label>
+            <label>Peso (kg) <input type="number" name="peso_kg" step="0.1" min="0"></label>
+          </div>
+          <label>Notas (alergias, carácter) <textarea name="notas" maxlength="1000"></textarea></label>
+          <button class="btn">Guardar</button>
+        </form>
+        <datalist id="especies"><option>Perro</option><option>Gato</option><option>Conejo</option><option>Ave</option><option>Hámster</option></datalist>
+      </div>
+    </section>
+
+    <!-- Historial -->
+    <section data-panel="historial" class="grid">
+      <div class="card row">
+        <label style="flex:1">Mascota <select id="hist-mascota" data-mascotas></select></label>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Historial clínico</h2>
+          <ul class="list" id="historial"></ul>
+        </div>
+        <div class="card stack">
+          <h2>Fotos y documentos</h2>
+          <form id="form-foto" class="form">
+            <label>Subir foto o PDF (máx. 8 MB) <input type="file" name="archivo" accept="image/jpeg,image/png,image/webp,application/pdf" required></label>
+            <button class="btn">Subir</button>
+          </form>
+          <p class="small muted">Útil para mostrar una herida, un síntoma o resultados de otra clínica antes de la cita.</p>
+          <div class="files" id="archivos"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Boletas -->
+    <section data-panel="boletas" class="card">
+      <h2>Mis boletas</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Comprobante</th><th>Fecha</th><th>Detalle</th><th class="num">Total</th><th>Estado</th></tr></thead>
+          <tbody id="boletas"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/demo.js"></script>
+  <script src="assets/api.js"></script>
+  <script src="assets/cliente.js"></script>
+</body>
+</html>
