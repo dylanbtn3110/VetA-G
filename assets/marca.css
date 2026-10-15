@@ -37,7 +37,7 @@
   /* Tipografía (las mismas fuentes de la landing) */
   --font-body: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
   --font-display: "Sora", "Segoe UI", system-ui, sans-serif;   /* títulos y números */
-  --font-brand: "Sora", "Segoe UI", system-ui, sans-serif;     /* nombre de la clínica en el portal */
+  --font-brand: "Sora", "Segoe UI", system-ui, sans-serif;     /* nombre de la clínica (landing y portal) */
   --fs-xs: 0.78rem;   /* etiquetas, notas al pie */
   --fs-sm: 0.88rem;   /* texto secundario, tablas */
   --fs-md: 1rem;      /* texto normal */
