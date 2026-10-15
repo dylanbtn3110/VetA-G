@@ -347,8 +347,14 @@ test('formulario público: la solicitud llega al veterinario y se limita el spam
   assert.equal(ultimo.status, 429);
 });
 
-test('archivos estáticos sin salir de public/', async () => {
+test('solo se sirven los archivos de la página, nunca código ni datos', async () => {
   assert.equal((await api('GET', '/')).status, 200);
+  for (const pagina of ['/acceso.html', '/cliente.html', '/veterinario.html', '/assets/app.css', '/assets/demo.js']) {
+    assert.equal((await api('GET', pagina)).status, 200, pagina);
+  }
+  for (const privado of ['/server/config.js', '/package.json', '/data/veta.db', '/.git/config', '/test/api.test.js', '/README.md']) {
+    assert.equal((await api('GET', privado)).status, 404, privado);
+  }
   // fetch normaliza "..", así que se envía la ruta cruda con http.request.
   const status = await new Promise((ok, mal) => {
     const req = httpRequest({ host: '127.0.0.1', port: app.server.address().port, path: '/../server/config.js' }, (res) => {

@@ -7,7 +7,8 @@ export const config = {
   port: Number(process.env.PORT ?? 3000),
   dbPath: process.env.DB_PATH ?? join(raiz, 'data', 'veta.db'),
   uploadDir: process.env.UPLOAD_DIR ?? join(raiz, 'data', 'uploads'),
-  publicDir: join(raiz, 'public'),
+  // La página vive en la raíz del repositorio (así también funciona en GitHub Pages).
+  publicDir: raiz,
   maxUploadBytes: Number(process.env.MAX_UPLOAD_MB ?? 8) * 1024 * 1024,
   recordatorios: process.env.RECORDATORIOS !== '0',
   // Datos del emisor para las boletas. Configurar con variables de entorno en producción.
