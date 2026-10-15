@@ -21,15 +21,15 @@ salvo con `NODE_ENV=production`.
 
 ### Sin servidor: modo demostración
 
-Si abres `public/index.html` directamente o publicas la carpeta `public/` en un hosting estático
-(por ejemplo GitHub Pages), la página detecta que no hay servidor y usa un modo demostración:
+Si abres `index.html` directamente o lo publicas en un hosting estático
+(por ejemplo GitHub Pages: `dylanbtn3110.github.io/VetA-G/acceso.html`), la página detecta que no hay servidor y usa un modo demostración:
 todo el portal funciona, pero los datos se guardan solo en ese navegador. La página de acceso
 muestra botones para entrar como veterinario o como cliente, y un aviso arriba permite reiniciar
 los datos. Para uso real con clientes hay que correr el servidor (`npm start`).
 
 | Página | Para quién |
 | --- | --- |
-| `/` | Página pública de la clínica |
+| `/` | Página pública de la clínica (enlace «Ingresar» en el menú) |
 | `/acceso.html` | Iniciar sesión o crear cuenta |
 | `/cliente.html` | Portal del cliente |
 | `/veterinario.html` | Panel del veterinario |
@@ -50,7 +50,11 @@ los datos. Para uso real con clientes hay que correr el servidor (`npm start`).
 ## Estructura
 
 ```
-public/            páginas y recursos del navegador
+index.html         página pública (landing)
+acceso.html        iniciar sesión o crear cuenta
+cliente.html       portal del cliente
+veterinario.html   panel del veterinario
+assets/            fotos, logo y scripts/estilos del portal (api.js, demo.js, app.css…)
 server/
   app.js           servidor HTTP, archivos estáticos y manejo de errores
   index.js         arranque y recordatorios cada minuto

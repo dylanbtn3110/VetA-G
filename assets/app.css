@@ -1,13 +1,13 @@
 :root {
-  --primary: #2a7f6f;
-  --primary-dark: #1f5f53;
-  --accent: #f4a261;
+  --primary: #0b3c8c;
+  --primary-dark: #082b66;
+  --accent: #2fa7dc;
   --bg: #f6f8f7;
   --card: #ffffff;
   --text: #1f2d2a;
   --muted: #5b6b67;
   --border: #d9e5e1;
-  --soft: #eef6f3;
+  --soft: #e6f4fb;
   --danger: #c0392b;
   --danger-soft: #fdecea;
   --warn: #b7791f;
@@ -59,7 +59,8 @@ h3 { font-size: 1.05rem; }
   background: var(--card); border-bottom: 1px solid var(--border);
 }
 .topbar .wrap { display: flex; align-items: center; gap: 12px; min-height: 60px; flex-wrap: wrap; }
-.brand { font-weight: 800; color: var(--primary-dark); text-decoration: none; font-size: 1.15rem; }
+.brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: var(--primary-dark); text-decoration: none; font-size: 1.15rem; }
+.brand img { width: 32px; height: 32px; object-fit: contain; }
 .topbar .spacer { flex: 1; }
 .user { color: var(--muted); font-size: .95rem; }
 .bell { position: relative; }

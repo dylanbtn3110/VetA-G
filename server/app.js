@@ -19,6 +19,9 @@ const TIPOS = {
   '.ico': 'image/x-icon',
 };
 
+// Solo se sirven los archivos de la página. Nunca server/, data/ (la base), test/, .git ni package.json.
+const PUBLICOS = /^\/(index|acceso|cliente|veterinario)\.html$|^\/(styles\.css|script\.js)$|^\/assets\/[\w\-./ ]+$/;
+
 async function servirEstatico(res, pathname, dir) {
   let ruta;
   try {
@@ -26,7 +29,8 @@ async function servirEstatico(res, pathname, dir) {
   } catch {
     return sendJson(res, 400, { error: 'Ruta inválida' });
   }
-  if (ruta.endsWith('/')) ruta += 'index.html';
+  if (ruta === '/') ruta = '/index.html';
+  if (!PUBLICOS.test(ruta) || ruta.includes('..') || ruta.includes('/.')) return sendJson(res, 404, { error: 'No encontrado' });
   const raiz = resolve(dir);
   const abs = resolve(raiz, `.${ruta}`);
   if (!abs.startsWith(raiz + sep)) return sendJson(res, 404, { error: 'No encontrado' });
