@@ -55,8 +55,8 @@ a { color: var(--navy); }
 .brand {
   display: flex; align-items: center; gap: 12px;
   text-decoration: none; color: var(--navy-deep);
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-weight: 700; font-size: 1.4rem; letter-spacing: 0.01em;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em;
   white-space: nowrap;
 }
 .brand img { width: 46px; height: 46px; object-fit: contain; }
@@ -349,7 +349,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
   .gallery img.desk { display: none; }
 }
 @media (max-width: 400px) {
-  .brand { font-size: 1.05rem; gap: 8px; }
+  .brand { font-size: 0.95rem; gap: 8px; }
   .brand img { width: 38px; height: 38px; }
 }
 
