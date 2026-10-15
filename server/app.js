@@ -20,7 +20,7 @@ const TIPOS = {
 };
 
 // Solo se sirven los archivos de la página. Nunca server/, data/ (la base), test/, .git ni package.json.
-const PUBLICOS = /^\/(index|acceso|cliente|veterinario)\.html$|^\/(styles\.css|script\.js)$|^\/assets\/[\w\-./ ]+$/;
+const PUBLICOS = /^\/(index|acceso|cliente|veterinario|guia-estilo)\.html$|^\/(styles\.css|script\.js)$|^\/assets\/[\w\-./ ]+$/;
 
 async function servirEstatico(res, pathname, dir) {
   let ruta;

@@ -349,7 +349,7 @@ test('formulario público: la solicitud llega al veterinario y se limita el spam
 
 test('solo se sirven los archivos de la página, nunca código ni datos', async () => {
   assert.equal((await api('GET', '/')).status, 200);
-  for (const pagina of ['/acceso.html', '/cliente.html', '/veterinario.html', '/assets/app.css', '/assets/demo.js']) {
+  for (const pagina of ['/acceso.html', '/cliente.html', '/veterinario.html', '/guia-estilo.html', '/assets/marca.css', '/assets/app.css', '/assets/demo.js']) {
     assert.equal((await api('GET', pagina)).status, 200, pagina);
   }
   for (const privado of ['/server/config.js', '/package.json', '/data/veta.db', '/.git/config', '/test/api.test.js', '/README.md']) {

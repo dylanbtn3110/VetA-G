@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/mark.png" type="image/png">
+  <title>Guía de estilo · Clínica Aguirre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Sora:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/marca.css">
+  <link rel="stylesheet" href="assets/app.css">
+  <style>
+    /* Estilos propios de esta página (no forman parte del sistema). */
+    .guia section { margin-bottom: 40px; }
+    .guia h2 { margin-bottom: 4px; }
+    .guia .lead { color: var(--muted); margin: 0 0 var(--sp-4); max-width: 70ch; }
+    .swatches { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+    .swatch { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
+    .swatch .chip { height: 72px; display: flex; align-items: flex-end; padding: var(--sp-2) var(--sp-3); font-weight: 800; font-family: var(--font-display); }
+    .swatch .info { padding: var(--sp-3); font-size: var(--fs-sm); }
+    .swatch code { font-size: var(--fs-xs); color: var(--muted); }
+    .ratio { display: inline-block; font-size: var(--fs-xs); font-weight: 800; padding: 1px 8px; border-radius: var(--r-pill); }
+    .ratio.aa { background: var(--ok-soft); color: var(--ok); }
+    .ratio.deco { background: var(--warn-soft); color: var(--warn); }
+    .muestra { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+    .escala td:first-child { width: 160px; color: var(--muted); }
+    .reglas { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .regla { border-radius: var(--r-md); padding: var(--sp-4); border: 2px solid; background: var(--surface); }
+    .regla.si { border-color: var(--ok); }
+    .regla.no { border-color: var(--danger); }
+    .regla h3 { font-size: var(--fs-md); margin-bottom: var(--sp-2); }
+    .regla.si h3 { color: var(--ok); }
+    .regla.no h3 { color: var(--danger); }
+    .regla ul { margin: 0; padding-left: 18px; }
+    .espacios { display: flex; gap: var(--sp-4); align-items: flex-end; flex-wrap: wrap; }
+    .espacios div { background: var(--navy); border-radius: 4px; }
+    .espacios figure { margin: 0; text-align: center; font-size: var(--fs-xs); color: var(--muted); }
+    .formas { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
+    .formas div { width: 120px; height: 72px; background: var(--celeste-soft); border: 2px solid var(--navy); display: grid; place-items: center; font-size: var(--fs-xs); font-weight: 700; color: var(--navy); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a href="index.html" class="brand"><img src="assets/mark.png" alt="" width="32" height="32">Clínica Aguirre <span class="rol">Guía de estilo</span></a>
+      <span class="spacer"></span>
+      <a class="btn ghost small" href="acceso.html">Ir al portal</a>
+    </div>
+  </header>
+
+  <main class="wrap guia">
+    <section>
+      <h1>Guía de estilo</h1>
+      <p class="lead">Cómo se ve y se escribe la marca de la Clínica Veterinaria Aguirre en la web. Los valores viven en <code>assets/marca.css</code>; los componentes de esta página son los mismos del portal (<code>assets/app.css</code>), así que lo que ves aquí es exactamente lo que ve el cliente.</p>
+      <div class="reglas">
+        <div class="regla si"><h3>Principio 1 · Una sola marca</h3><p class="small">La landing y el portal usan los mismos colores, fuentes y formas. Un solo tema claro: no hay modo oscuro.</p></div>
+        <div class="regla si"><h3>Principio 2 · Siempre legible</h3><p class="small">Todo texto cumple contraste WCAG AA (4.5:1 o más). Bordes de campos y gráficos, 3:1 o más.</p></div>
+        <div class="regla si"><h3>Principio 3 · Cercano y claro</h3><p class="small">Tono de veterinaria familiar: frases cortas, de tú, sin tecnicismos. Botones con verbos: «Reservar», «Voy en camino».</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Colores</h2>
+      <p class="lead">El contraste indicado es contra fondo blanco, salvo que se diga otro.</p>
+      <h3>Marca</h3>
+      <div class="swatches">
+        <div class="swatch"><div class="chip" style="background:var(--navy);color:#fff">Aa</div><div class="info"><strong>Azul marino</strong> <code>--navy #0b3c8c</code><br>Botón principal, enlaces, títulos. <span class="ratio aa">10.3:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--navy-deep);color:#fff">Aa</div><div class="info"><strong>Azul profundo</strong> <code>--navy-deep #082b66</code><br>Hover de botones, títulos grandes, cifras. <span class="ratio aa">13.6:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--celeste-ink);color:#fff">Aa</div><div class="info"><strong>Celeste tinta</strong> <code>--celeste-ink #17709e</code><br>Texto de acento y anillo de foco. <span class="ratio aa">5.5:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--celeste);color:var(--navy-deep)">Aa</div><div class="info"><strong>Celeste</strong> <code>--celeste #2fa7dc</code><br>Solo decoración: íconos, ilustraciones. <span class="ratio deco">2.7:1 no para texto</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--celeste-soft);color:var(--navy)">Aa</div><div class="info"><strong>Celeste suave</strong> <code>--celeste-soft #e6f4fb</code><br>Fondos de realce y hover. Texto navy encima: <span class="ratio aa">9.2:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--whatsapp);color:#fff">Aa</div><div class="info"><strong>WhatsApp</strong> <code>--whatsapp #1a7f45</code><br>Solo para botones de WhatsApp. <span class="ratio aa">5.0:1 AA</span></div></div>
+      </div>
+      <h3 style="margin-top:var(--sp-5)">Neutros</h3>
+      <div class="swatches">
+        <div class="swatch"><div class="chip" style="background:var(--text);color:#fff">Aa</div><div class="info"><strong>Texto</strong> <code>--text #13233f</code><br>Texto principal. <span class="ratio aa">15.7:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--muted);color:#fff">Aa</div><div class="info"><strong>Texto secundario</strong> <code>--muted #4d6079</code><br>Notas, fechas, ayudas. <span class="ratio aa">6.4:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--field-line);color:#fff">Aa</div><div class="info"><strong>Borde de campo</strong> <code>--field-line #6b85a3</code><br>Inputs y selectores. <span class="ratio aa">3.8:1 (mín. 3)</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--line)"></div><div class="info"><strong>Línea</strong> <code>--line #d5e6f2</code><br>Divisores y bordes de tarjetas (decorativo).</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--page)"></div><div class="info"><strong>Fondo de página</strong> <code>--page #f3f9fd</code></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--surface)"></div><div class="info"><strong>Superficie</strong> <code>--surface #ffffff</code><br>Tarjetas, barra superior, campos.</div></div>
+      </div>
+      <h3 style="margin-top:var(--sp-5)">Estados</h3>
+      <div class="swatches">
+        <div class="swatch"><div class="chip" style="background:var(--ok-soft);color:var(--ok)">Confirmada</div><div class="info"><strong>Éxito</strong> <code>--ok #1f7a3d / --ok-soft</code> <span class="ratio aa">4.8:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--warn-soft);color:var(--warn)">Pendiente</div><div class="info"><strong>Aviso</strong> <code>--warn #8a5a00 / --warn-soft</code> <span class="ratio aa">5.4:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--danger-soft);color:var(--danger)">Urgente</div><div class="info"><strong>Peligro</strong> <code>--danger #b42318 / --danger-soft</code> <span class="ratio aa">5.8:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--info-soft);color:var(--info)">En atención</div><div class="info"><strong>Información</strong> <code>--info #0b3c8c / --info-soft</code> <span class="ratio aa">9.2:1 AA</span></div></div>
+        <div class="swatch"><div class="chip" style="background:var(--surface);color:var(--hoy)">Hoy</div><div class="info"><strong>Hoy</strong> <code>--hoy #b85c00</code><br>Día actual en gráficos. <span class="ratio aa">4.6:1 AA</span></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Tipografía</h2>
+      <p class="lead">Tres familias, cada una con un solo trabajo.</p>
+      <div class="card">
+        <table class="escala">
+          <tr><td>Marca · Cormorant Garamond 700</td><td><span class="brand" style="font-size:1.6rem">Clínica Veterinaria Aguirre</span></td></tr>
+          <tr><td>Título · Sora 800 · 2rem</td><td><h1 style="margin:0">Especialistas en tu engreído</h1></td></tr>
+          <tr><td>Sección · Sora 800 · 1.5rem</td><td><h2 style="margin:0">Mis próximas citas</h2></td></tr>
+          <tr><td>Tarjeta · Sora 700 · 1.2rem</td><td><h3 style="margin:0">Historial clínico</h3></td></tr>
+          <tr><td>Texto · Segoe UI · 1rem</td><td>Tu solicitud queda pendiente hasta que la clínica la confirme.</td></tr>
+          <tr><td>Secundario · 0.88rem</td><td class="muted small">Llega en ~10 min · cita de las 09:30</td></tr>
+          <tr><td>Etiqueta · 0.78rem 700</td><td><span class="badge">Etiqueta</span></td></tr>
+          <tr><td>Cifra · Sora 800 · 2rem</td><td><span class="kpi" style="display:inline-block"><span class="value">S/ 47.00</span></span></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Botones</h2>
+      <p class="lead">Forma de píldora, alto mínimo de 44 px para tocar fácil en celular. Un solo botón principal por bloque.</p>
+      <div class="card stack">
+        <div class="muestra">
+          <button class="btn">Reservar cita</button>
+          <button class="btn ghost">Ver servicios</button>
+          <button class="btn danger">Enviar urgencia</button>
+          <button class="btn" disabled>Deshabilitado</button>
+        </div>
+        <div class="muestra">
+          <button class="btn small">Confirmar</button>
+          <button class="btn ghost small">Cancelar</button>
+        </div>
+        <p class="small muted">Principal: la acción más importante. Secundario (borde): alternativas. Rojo: solo urgencias o acciones destructivas.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Formularios</h2>
+      <p class="lead">Etiqueta siempre visible arriba del campo; el ejemplo va como texto de ayuda, nunca en lugar de la etiqueta.</p>
+      <div class="card">
+        <form class="form" onsubmit="return false">
+          <div class="form-grid">
+            <label>Nombre de la mascota <input placeholder="Ej.: Firulais"></label>
+            <label>Servicio <select><option>Baño · 60 min · S/ 35.00</option></select></label>
+            <label>Fecha <input type="date"></label>
+          </div>
+          <div>
+            <p class="small muted" style="margin:0 0 8px">Horarios libres (tachados: ocupados)</p>
+            <div class="slots"><button type="button" aria-pressed="false">09:00</button><button type="button" aria-pressed="true">09:15</button><button type="button" disabled>09:30</button><button type="button" aria-pressed="false">09:45</button></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section>
+      <h2>Etiquetas de estado</h2>
+      <p class="lead">Un color por significado. Verde: listo. Ámbar: requiere atención. Rojo: urgente o vencido. Azul: en curso. Gris: cerrado.</p>
+      <div class="card muestra">
+        <span class="badge confirmada">Confirmada</span><span class="badge atendida">Atendida</span>
+        <span class="badge pendiente">Pendiente</span><span class="badge en_camino">En camino</span><span class="badge por_vencer">Por vencer</span>
+        <span class="badge urgente">Urgente</span><span class="badge vencido">Vencido</span>
+        <span class="badge en_atencion">En atención</span>
+        <span class="badge cancelada">Cancelada</span><span class="badge anulada">Anulada</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Tarjetas, cifras y avisos</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Tarjeta</h3>
+          <p class="muted small" style="margin:0">Fondo blanco, borde de línea, radio de 16 px y sombra suave. Título en Sora.</p>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><div class="label">Clientes hoy</div><div class="value">12</div></div>
+          <div class="kpi alert"><div class="label">Urgencias hoy</div><div class="value">2</div></div>
+        </div>
+      </div>
+      <div class="sos" style="margin-top:var(--sp-4)">
+        <h2>¿Es una urgencia?</h2>
+        <p style="margin:0">El bloque de urgencias es el único con fondo rojo suave y borde rojo.</p>
+      </div>
+      <div class="demo-banner" style="margin-top:var(--sp-4);border-radius:var(--r-sm)">Modo demostración: los datos se guardan solo en este navegador. <button type="button">Reiniciar datos</button></div>
+    </section>
+
+    <section>
+      <h2>Espacios y formas</h2>
+      <p class="lead">Espacios en múltiplos de 4 px. Radios: 10 px campos, 16 px tarjetas, píldora para botones y etiquetas.</p>
+      <div class="card stack">
+        <div class="espacios">
+          <figure><div style="width:4px;height:4px"></div>4</figure>
+          <figure><div style="width:8px;height:8px"></div>8</figure>
+          <figure><div style="width:12px;height:12px"></div>12</figure>
+          <figure><div style="width:16px;height:16px"></div>16</figure>
+          <figure><div style="width:24px;height:24px"></div>24</figure>
+          <figure><div style="width:32px;height:32px"></div>32</figure>
+        </div>
+        <div class="formas">
+          <div style="border-radius:var(--r-sm)">Campo · 10 px</div>
+          <div style="border-radius:var(--r-md)">Tarjeta · 16 px</div>
+          <div style="border-radius:var(--r-pill)">Botón · píldora</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Reglas de uso</h2>
+      <div class="reglas">
+        <div class="regla si"><h3>Sí</h3><ul class="small">
+          <li>Usar solo los tokens de <code>marca.css</code>.</li>
+          <li>Texto en azul marino o en texto principal sobre fondos claros.</li>
+          <li>Un botón principal por bloque; el resto, secundarios.</li>
+          <li>Comprobar el contraste antes de agregar un color nuevo.</li>
+        </ul></div>
+        <div class="regla no"><h3>No</h3><ul class="small">
+          <li>Escribir texto en celeste brillante ni en verde del pasto.</li>
+          <li>Agregar un modo oscuro solo en una parte del sitio.</li>
+          <li>Inventar colores con código hex suelto en una página.</li>
+          <li>Usar rojo para algo que no sea urgente o destructivo.</li>
+        </ul></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
