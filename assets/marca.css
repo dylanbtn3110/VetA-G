@@ -1,0 +1,58 @@
+/*
+  Guía de estilo · Clínica Veterinaria Aguirre
+  Fuente única de colores, tipografía y formas del portal.
+  La versión visual está en guia-estilo.html.
+
+  Reglas:
+  - Un solo tema claro, igual que la landing (no hay modo oscuro).
+  - Todo texto cumple contraste WCAG AA (4.5:1 o más); bordes y gráficos, 3:1 o más.
+  - El celeste brillante y el verde del pasto son solo decorativos: nunca para texto.
+*/
+:root {
+  color-scheme: light;
+
+  /* Marca */
+  --navy: #0b3c8c;          /* acción principal, enlaces, títulos · 10.3:1 sobre blanco */
+  --navy-deep: #082b66;     /* hover de botones, títulos grandes · 13.6:1 */
+  --celeste-ink: #17709e;   /* texto de acento y anillo de foco · 5.5:1 */
+  --celeste: #2fa7dc;       /* solo decorativo · 2.7:1, no usar en texto */
+  --celeste-soft: #e6f4fb;  /* fondos suaves de marca */
+  --whatsapp: #1a7f45;      /* botón de WhatsApp · 5.0:1 con texto blanco */
+
+  /* Neutros */
+  --text: #13233f;          /* texto principal · 15.7:1 */
+  --muted: #4d6079;         /* texto secundario · 6.4:1 */
+  --line: #d5e6f2;          /* divisores y bordes de tarjetas (decorativos) */
+  --field-line: #6b85a3;    /* borde de campos de formulario · 3.8:1 */
+  --page: #f3f9fd;          /* fondo de página */
+  --surface: #ffffff;       /* tarjetas, barra superior, campos */
+
+  /* Estados (texto sobre su fondo suave, todos AA) */
+  --ok: #1f7a3d;      --ok-soft: #e7f5ec;      /* 4.8:1 */
+  --warn: #8a5a00;    --warn-soft: #fff3db;    /* 5.4:1 */
+  --danger: #b42318;  --danger-soft: #fdecea;  /* 5.8:1 · botón rojo con texto blanco 6.6:1 */
+  --info: #0b3c8c;    --info-soft: #e6f4fb;    /* 9.2:1 */
+  --hoy: #b85c00;     /* día actual en gráficos · 4.6:1 */
+
+  /* Tipografía (las mismas fuentes de la landing) */
+  --font-body: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --font-display: "Sora", "Segoe UI", system-ui, sans-serif;   /* títulos y números */
+  --font-brand: "Cormorant Garamond", Georgia, serif;          /* solo el nombre de la clínica */
+  --fs-xs: 0.78rem;   /* etiquetas, notas al pie */
+  --fs-sm: 0.88rem;   /* texto secundario, tablas */
+  --fs-md: 1rem;      /* texto normal */
+  --fs-lg: 1.2rem;    /* títulos de tarjeta (h3) */
+  --fs-xl: 1.5rem;    /* títulos de sección (h2) */
+  --fs-2xl: 2rem;     /* cifras de KPIs */
+
+  /* Espacios: múltiplos de 4 */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+
+  /* Formas */
+  --r-sm: 10px;       /* campos, chips de horario */
+  --r-md: 16px;       /* tarjetas */
+  --r-pill: 999px;    /* botones y etiquetas */
+  --shadow: 0 10px 30px rgba(11, 60, 140, 0.10);
+  --shadow-sm: 0 2px 8px rgba(11, 60, 140, 0.06);
+  --control-h: 44px;  /* alto mínimo de botones y campos (táctil) */
+}

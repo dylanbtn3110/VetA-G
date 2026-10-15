@@ -33,6 +33,7 @@ los datos. Para uso real con clientes hay que correr el servidor (`npm start`).
 | `/acceso.html` | Iniciar sesión o crear cuenta |
 | `/cliente.html` | Portal del cliente |
 | `/veterinario.html` | Panel del veterinario |
+| `/guia-estilo.html` | Guía de estilo: colores con su contraste, tipografía y componentes |
 
 ### Variables de entorno
 
@@ -54,7 +55,8 @@ index.html         página pública (landing)
 acceso.html        iniciar sesión o crear cuenta
 cliente.html       portal del cliente
 veterinario.html   panel del veterinario
-assets/            fotos, logo y scripts/estilos del portal (api.js, demo.js, app.css…)
+guia-estilo.html   guía de estilo visual (colores, tipografía, componentes)
+assets/            fotos, logo, marca.css (tokens de la guía) y scripts/estilos del portal
 server/
   app.js           servidor HTTP, archivos estáticos y manejo de errores
   index.js         arranque y recordatorios cada minuto
